@@ -1,0 +1,107 @@
+#ASDF 1.0.0
+#ASDF_STANDARD 1.5.0
+%YAML 1.1
+%TAG ! tag:stsci.edu:asdf/
+--- !core/asdf-1.1.0
+asdf_library: !core/software-1.0.0 {author: Space Telescope Science Institute, homepage: 'http://github.com/spacetelescope/asdf',
+  name: asdf, version: 2.7.3}
+history:
+  extensions:
+  - !core/extension_metadata-1.0.0
+    extension_class: asdf.extension.BuiltinExtension
+    software: !core/software-1.0.0 {name: asdf, version: 2.7.3}
+class: jwst.pipeline.calwebb_detector1.Detector1Pipeline
+name: Detector1Pipeline
+parameters:
+  save_calibrated_ramp: false
+
+steps:
+- class: jwst.group_scale.group_scale_step.GroupScaleStep
+  name: group_scale
+  parameters:
+  
+- class: jwst.dq_init.dq_init_step.DQInitStep
+  name: dq_init
+  parameters:
+  
+- class: jwst.saturation.saturation_step.SaturationStep
+  name: saturation
+  parameters:
+  
+- class: jwst.ipc.ipc_step.IPCStep
+  name: ipc
+  parameters:
+  
+- class: jwst.superbias.superbias_step.SuperBiasStep
+  name: superbias
+  parameters:
+
+- class: jwst.refpix.refpix_step.RefPixStep
+  name: refpix
+  parameters:
+
+    odd_even_columns: true
+    odd_even_rows: true
+
+    side_gain: 1.0
+    side_smoothing_length: 11
+  
+    use_side_ref_pixels: true
+
+- class: jwst.rscd.rscd_step.RscdStep
+  name: rscd
+  parameters:
+    type: baseline
+
+- class: jwst.firstframe.firstframe_step.FirstFrameStep
+  name: firstframe
+  parameters:
+  
+- class: jwst.lastframe.lastframe_step.LastFrameStep
+  name: lastframe
+  parameters:
+  
+- class: jwst.linearity.linearity_step.LinearityStep
+  name: linearity
+  parameters:
+  
+- class: jwst.dark_current.dark_current_step.DarkCurrentStep
+  name: dark_current
+  parameters:
+
+- class: jwst.reset.reset_step.ResetStep
+  name: reset
+  parameters:
+
+- class: jwst.persistence.persistence_step.PersistenceStep
+  name: persistence
+  parameters:
+    flag_pers_cutoff: 40.0
+    input_trapsfilled: ''
+    save_persistence: false
+    save_trapsfilled: true
+  
+- class: jwst.jump.jump_step.JumpStep
+  name: jump
+  parameters:
+    flag_4_neighbors: true
+    four_group_rejection_threshold: 5.0
+    max_jump_to_flag_neighbors: 1000.0
+    maximum_cores: none
+    min_jump_to_flag_neighbors: 10.0
+    rejection_threshold: 4.0
+    three_group_rejection_threshold: 6.0
+
+- class: jwst.ramp_fitting.ramp_fit_step.RampFitStep
+  name: ramp_fit
+  parameters:
+    int_name: ''
+    maximum_cores: none
+    opt_name: ''
+    save_opt: false
+  
+- class: jwst.gain_scale.gain_scale_step.GainScaleStep
+  name: gain_scale
+  parameters:
+
+...

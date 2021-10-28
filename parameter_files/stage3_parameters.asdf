@@ -1,0 +1,112 @@
+#ASDF 1.0.0
+#ASDF_STANDARD 1.5.0
+%YAML 1.1
+%TAG ! tag:stsci.edu:asdf/
+--- !core/asdf-1.1.0
+asdf_library: !core/software-1.0.0 {author: Space Telescope Science Institute, homepage: 'http://github.com/spacetelescope/asdf',
+  name: asdf, version: 2.7.3}
+history:
+  extensions:
+  - !core/extension_metadata-1.0.0
+    extension_class: asdf.extension.BuiltinExtension
+    software: !core/software-1.0.0 {name: asdf, version: 2.7.3}
+class: jwst.pipeline.calwebb_coron3.Coron3Pipeline
+name: Coron3Pipeline
+parameters:
+  input_dir: ''
+  output_ext: .fits
+  output_use_index: true
+  output_use_model: false
+  post_hooks: []
+  pre_hooks: []
+  save_results: false
+  search_output_file: true
+  skip: false
+  suffix: i2d
+steps:
+- class: jwst.coron.stack_refs_step.StackRefsStep
+  name: stack_refs
+  parameters:
+    input_dir: ''
+    output_ext: .fits
+    output_use_index: true
+    output_use_model: false
+    post_hooks: []
+    pre_hooks: []
+    save_results: false
+    search_output_file: true
+    skip: false
+- class: jwst.coron.align_refs_step.AlignRefsStep
+  name: align_refs
+  parameters:
+    bad_bits: DO_NOT_USE
+    input_dir: ''
+    median_box_length: 3
+    output_ext: .fits
+    output_use_index: true
+    output_use_model: false
+    post_hooks: []
+    pre_hooks: []
+    save_results: false
+    search_output_file: true
+    skip: false
+- class: jwst.coron.klip_step.KlipStep
+  name: klip
+  parameters:
+    input_dir: ''
+    output_ext: .fits
+    output_use_index: true
+    output_use_model: false
+    post_hooks: []
+    pre_hooks: []
+    save_results: false
+    search_output_file: true
+    skip: false
+    truncate: 50
+- class: jwst.outlier_detection.outlier_detection_step.OutlierDetectionStep
+  name: outlier_detection
+  parameters:
+    backg: 0.0
+    fillval: INDEF
+    good_bits: ~DO_NOT_USE
+    grow: 1
+    input_dir: ''
+    kernel: square
+    maskpt: 0.7
+    nhigh: 0
+    nlow: 0
+    output_ext: .fits
+    output_use_index: true
+    output_use_model: false
+    pixfrac: 1.0
+    post_hooks: []
+    pre_hooks: []
+    resample_data: true
+    save_intermediate_results: false
+    save_results: false
+    scale: 1.2 0.7
+    scale_detection: false
+    search_output_file: false
+    skip: false
+    snr: 5.0 4.0
+    weight_type: ivm
+- class: jwst.resample.resample_step.ResampleStep
+  name: resample
+  parameters:
+    blendheaders: true
+    fillval: INDEF
+    input_dir: ''
+    kernel: square
+    output_ext: .fits
+    output_use_index: true
+    output_use_model: false
+    pixel_scale_ratio: 1.0
+    pixfrac: 1.0
+    post_hooks: []
+    pre_hooks: []
+    save_results: false
+    search_output_file: true
+    single: false
+    skip: false
+    weight_type: ivm
+...
