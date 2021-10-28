@@ -3,3 +3,4 @@
 *.json
 *.fits
 /parameter_files/.ipynb_checkpoints/
+/psfmasks
