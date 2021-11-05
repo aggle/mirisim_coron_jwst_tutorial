@@ -1,4 +1,4 @@
-*.ipynb
+*-v*.ipynb
 /.ipynb_checkpoints/
 *.json
 *.fits
